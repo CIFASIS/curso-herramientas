@@ -4,15 +4,15 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 
 from sklearn import preprocessing
-from sklearn.ensemble import RandomForestRegressor
 from sklearn.decomposition import PCA
 from sklearn.manifold import Isomap
-from sklearn.manifold import TSNE
+
+from sklearn.cluster import KMeans
+from sklearn.cluster import AgglomerativeClustering
+from sklearn.metrics import silhouette_score
+
 
 cmap_bold = colors.ListedColormap(['#FF0000', '#00FF00', '#0000FF'])
-
-
-# 3. Load red wine data.
 data = pd.read_csv('data/churn.csv')
 
 print data.head()
@@ -29,8 +29,29 @@ X[yes_no_cols] = X[yes_no_cols] == 'yes'
 scaler = preprocessing.StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
-print X_scaled.shape
-print y
+#reducer = Isomap(3, n_components=2)
+#X_reduced = reducer.fit_transform(X_scaled)
+
+#plt.scatter(X_reduced[:, 0], X_reduced[:, 1], c=y, cmap=cmap_bold)
+#plt.show()
+
+#print X_scaled.shape
+#print y
+
+for k in range(2,10):
+
+    est = AgglomerativeClustering(n_clusters=k)
+    est.fit(X_scaled)
+    labels = est.labels_
+    print k, silhouette_score(X_scaled, labels)
+
+    #plt.scatter(X[:,0], X[:,1], c = labels)
+    #plt.show()
+
+    #plt.scatter(X[:,0], X[:,2], c = labels)
+    #plt.show()
+
+assert(0)
 
 print X.mean(axis=0)
 print X_scaled.mean(axis=0)
@@ -48,8 +69,3 @@ plt.scatter(X_reduced[:, 0], X_reduced[:, 1], c=y, cmap=cmap_bold)
 
 plt.show()
 
-reducer = Isomap(3, n_components=2)
-X_reduced = reducer.fit_transform(X)
-
-plt.scatter(X_reduced[:, 0], X_reduced[:, 1], c=y, cmap=cmap_bold)
-plt.show()
