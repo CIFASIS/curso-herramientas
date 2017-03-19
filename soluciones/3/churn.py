@@ -38,34 +38,28 @@ X_scaled = scaler.fit_transform(X)
 #print X_scaled.shape
 #print y
 
+best_labels = []
+best_score = -1
+
 for k in range(2,10):
 
-    est = AgglomerativeClustering(n_clusters=k)
+    est = KMeans(n_clusters=k)
     est.fit(X_scaled)
     labels = est.labels_
-    print k, silhouette_score(X_scaled, labels)
+    score = silhouette_score(X_scaled, labels)
+    print k,score
 
-    #plt.scatter(X[:,0], X[:,1], c = labels)
-    #plt.show()
+    if best_score < score:
+        best_score = score
+        best_labels = list(labels)
 
-    #plt.scatter(X[:,0], X[:,2], c = labels)
-    #plt.show()
+print best_labels
+print best_score
 
-assert(0)
+reducer = PCA(n_components=2)
+X_reduced = reducer.fit_transform(X_scaled)
 
-print X.mean(axis=0)
-print X_scaled.mean(axis=0)
-
-print X.std(axis=0)
-print X_scaled.std(axis=0)
-
-reducer = PCA(n_components=10)
-X_reduced = reducer.fit_transform(X)
-
-print set(y)
-#print(pca.explained_variance_)
-
-plt.scatter(X_reduced[:, 0], X_reduced[:, 1], c=y, cmap=cmap_bold)
+plt.scatter(X_reduced[:, 0], X_reduced[:, 1], c=best_labels, cmap=cmap_bold)
 
 plt.show()
 

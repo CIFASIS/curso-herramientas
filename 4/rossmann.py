@@ -8,16 +8,5 @@ from sklearn.linear_model import LinearRegression
 from sklearn import cross_validation
 
 # ----
-# ejercicio 1.1
+# ejercicios
 # ----
-
-# ----
-# ejercicio 1.2
-# ----
-
-# ----
-# ejercicio 1.3
-# ----
-
-print "Presione enter para salir"
-raw_input()

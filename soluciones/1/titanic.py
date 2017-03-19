@@ -13,7 +13,7 @@ data_notnull = pd.read_csv('data/titanic.csv')
 print data.shape
 print data.head()
 # sumario de columnas numéricas
-print data.describe() 
+print data.describe()
 print data.isnull().any()
 
 # ----

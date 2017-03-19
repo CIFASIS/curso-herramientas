@@ -11,8 +11,6 @@ from sklearn.manifold import TSNE
 
 cmap_bold = colors.ListedColormap(['#FF0000', '#00FF00', '#0000FF'])
 
-
-# 3. Load red wine data.
 data = pd.read_csv('data/churn.csv')
 
 print data.head()
