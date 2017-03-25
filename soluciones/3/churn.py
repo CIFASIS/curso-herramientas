@@ -15,9 +15,6 @@ from sklearn.metrics import silhouette_score
 cmap_bold = colors.ListedColormap(['#FF0000', '#00FF00', '#0000FF'])
 data = pd.read_csv('data/churn.csv')
 
-print data.head()
-print data.describe()
-
 y = data['Churn?'] == "True."
 
 to_drop = ['State','Area Code','Phone','Churn?']
@@ -29,14 +26,14 @@ X[yes_no_cols] = X[yes_no_cols] == 'yes'
 scaler = preprocessing.StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
-#reducer = Isomap(3, n_components=2)
-#X_reduced = reducer.fit_transform(X_scaled)
+#reducer = PCA(n_components=2) 
+reducer = Isomap(3, n_components=2)
+X_reduced = reducer.fit_transform(X_scaled)
 
-#plt.scatter(X_reduced[:, 0], X_reduced[:, 1], c=y, cmap=cmap_bold)
-#plt.show()
+plt.scatter(X_reduced[:, 0], X_reduced[:, 1], c=y, cmap=cmap_bold)
+plt.show()
 
-#print X_scaled.shape
-#print y
+X = X_reduced
 
 best_labels = []
 best_score = -1
@@ -44,22 +41,34 @@ best_score = -1
 for k in range(2,10):
 
     est = KMeans(n_clusters=k)
-    est.fit(X_scaled)
+    est.fit(X)
     labels = est.labels_
-    score = silhouette_score(X_scaled, labels)
+    score = silhouette_score(X, labels)
     print k,score
 
     if best_score < score:
         best_score = score
         best_labels = list(labels)
 
-print best_labels
-print best_score
-
-reducer = PCA(n_components=2)
-X_reduced = reducer.fit_transform(X_scaled)
+print "mejor score con kmeans", best_score
 
 plt.scatter(X_reduced[:, 0], X_reduced[:, 1], c=best_labels, cmap=cmap_bold)
-
 plt.show()
 
+
+for k in range(2,10):
+
+    est = AgglomerativeClustering(n_clusters=k)
+    est.fit(X)
+    labels = est.labels_
+    score = silhouette_score(X, labels)
+    print k,score
+
+    if best_score < score:
+        best_score = score
+        best_labels = list(labels)
+
+print "mejor score con hierarchical clustering", best_score
+
+plt.scatter(X_reduced[:, 0], X_reduced[:, 1], c=best_labels, cmap=cmap_bold)
+plt.show()
