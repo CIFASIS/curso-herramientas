@@ -49,3 +49,4 @@ for C in [0.1,1,10,100,1000]:
 clf = LinearSVC(**best_params)
 clf.fit(X_train,y_train)
 print "SVM test score:", accuracy_score(y_test, clf.predict(X_test), normalize=True) 
+print  confusion_matrix(y_test, clf.predict(X_test))
