@@ -26,7 +26,6 @@ X[yes_no_cols] = X[yes_no_cols] == 'yes'
 scaler = preprocessing.StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
-#reducer = PCA(n_components=2) 
 reducer = Isomap(3, n_components=2)
 X_reduced = reducer.fit_transform(X_scaled)
 
