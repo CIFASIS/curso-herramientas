@@ -54,6 +54,8 @@ print "mejor score con kmeans", best_score
 plt.scatter(X_reduced[:, 0], X_reduced[:, 1], c=best_labels, cmap=cmap_bold)
 plt.show()
 
+best_labels = []
+best_score = -1
 
 for k in range(2,10):
 
