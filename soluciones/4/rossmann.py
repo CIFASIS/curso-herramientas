@@ -31,7 +31,7 @@ lr.fit(X_store, y_store)
 
 y_store_predict = lr.predict(pd.get_dummies(store_data, columns=['DayOfWeek', 'StateHoliday']).drop(['Sales', 'Store', 'Date', 'Customers'], axis=1).values)
 
-plt.plot(store_data.Sales[:365], label="ground truth")
+plt.plot(store_data.Sales[:365].values, label="ground truth")
 plt.plot(y_store_predict[:365], c='r', label="prediction")
 plt.legend()
 plt.show()
